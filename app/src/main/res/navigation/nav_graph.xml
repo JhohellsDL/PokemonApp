@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/overviewFragment">
+    app:startDestination="@id/overviewFragment2">
     <fragment
-        android:id="@+id/overviewFragment"
-        android:label="Pokemon Osd"
+        android:id="@+id/overviewFragment2"
         android:name="com.jdlstudios.pokemonapp.overview.OverviewFragment"
-        tools:layout="@layout/fragment_overview" />
+        android:label="OverviewFragment" >
+        <action
+            android:id="@+id/action_overviewFragment2_to_pokemonDetailFragment"
+            app:destination="@id/pokemonDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/pokemonDetailFragment"
+        android:name="com.jdlstudios.pokemonapp.detail.PokemonDetailFragment"
+        android:label="PokemonDetailFragment" />
 </navigation>

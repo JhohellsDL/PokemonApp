@@ -2,37 +2,39 @@ package com.jdlstudios.pokemonapp.overview
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import com.jdlstudios.pokemonapp.R
 import com.jdlstudios.pokemonapp.databinding.FragmentOverviewBinding
-import com.jdlstudios.pokemonapp.databinding.GridViewItemBinding
 
 class OverviewFragment : Fragment() {
 
-    private lateinit var binding: GridViewItemBinding
-
-    /*private val viewModel: OverviewViewModel by lazy {
-        ViewModelProvider(this)[OverviewViewModel::class.java]
-    }*/
+    private lateinit var binding: FragmentOverviewBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = GridViewItemBinding.inflate(inflater)
+        binding = FragmentOverviewBinding.inflate(inflater)
 
         val viewModel = ViewModelProvider(this)[OverviewViewModel::class.java]
         binding.viewModel = viewModel
-        viewModel.property.observe(viewLifecycleOwner){
-            Log.i("poke","poke!! ${it.name}")
-        }
         binding.lifecycleOwner = this
 
+        viewModel.property.observe(viewLifecycleOwner) {
+            Log.i("poke", "poke!! ${it.name}")
+        }
 
-        setHasOptionsMenu(true)
+        binding.buttonNext.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_overviewFragment2_to_pokemonDetailFragment)
+        )
+
+        this.setHasOptionsMenu(true)
         return binding.root
     }
 }
