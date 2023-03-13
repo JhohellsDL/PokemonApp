@@ -17,7 +17,7 @@
 
 package com.jdlstudios.pokemonapp.network
 
-data class PokemonProperty(
+data class PokemonList(
     val count: Int,
     val next: String?,
     val results: List<Pokemon>

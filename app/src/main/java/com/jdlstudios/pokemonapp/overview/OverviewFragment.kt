@@ -5,9 +5,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.jdlstudios.pokemonapp.R
 import com.jdlstudios.pokemonapp.databinding.FragmentOverviewBinding
@@ -27,12 +25,16 @@ class OverviewFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        viewModel.property.observe(viewLifecycleOwner) {
-            Log.i("poke", "poke!! ${it.name}")
-        }
 
         binding.buttonNext.setOnClickListener {
             it.findNavController().navigate(OverviewFragmentDirections.actionOverviewFragment2ToPokemonDetailFragment(5))
+        }
+
+        val adapter = PokemonListAdapter()
+        binding.pokemonList.adapter = adapter
+
+        viewModel.listPokemon.observe(viewLifecycleOwner) {
+            adapter.data = it!!
         }
 
         setHasOptionsMenu(true)

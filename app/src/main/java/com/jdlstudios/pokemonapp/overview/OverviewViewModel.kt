@@ -1,10 +1,13 @@
 package com.jdlstudios.pokemonapp.overview
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.jdlstudios.pokemonapp.network.Pokemon
 import com.jdlstudios.pokemonapp.network.PokemonApi
 import com.jdlstudios.pokemonapp.network.PokemonDetail
+import com.jdlstudios.pokemonapp.network.PokemonList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -21,6 +24,14 @@ class OverviewViewModel : ViewModel() {
     val property: LiveData<PokemonDetail>
         get() = _property
 
+    private val _listPokemon = MutableLiveData<List<Pokemon>>()
+    val listPokemon: LiveData<List<Pokemon>>
+        get() = _listPokemon
+
+    private val _elementListPokemon = MutableLiveData<PokemonList>()
+    val elementListPokemon: LiveData<PokemonList>
+        get() = _elementListPokemon
+
     private var viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -31,13 +42,13 @@ class OverviewViewModel : ViewModel() {
     private fun getMarsRealEstateProperties() {
         coroutineScope.launch {
 
-            val getPropertiesDeferred = PokemonApi.retrofitService.getPropertiesAsync("25")
+            //val getPropertiesDeferred = PokemonApi.retrofitService.getPropertiesAsync("25")
+            val getPropertiesDeferred = PokemonApi.retrofitService.getListPokemonAsync()
 
             try {
                 val result = getPropertiesDeferred.await()
-                //var listPokemon = result.results
-                _property.value = result
-                _status.value = "Llamada exitosa : ${result.name}"
+                _listPokemon.value = result.results
+                _status.value = "Llamada exitosa : ${result.results.size}"
             }catch (e: Exception){
                 _status.value = "Llamada fallida : " + e.message
             }
