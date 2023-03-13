@@ -3,6 +3,7 @@ package com.jdlstudios.pokemonapp.overview
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -30,7 +31,9 @@ class OverviewFragment : Fragment() {
             it.findNavController().navigate(OverviewFragmentDirections.actionOverviewFragment2ToPokemonDetailFragment(5))
         }
 
-        val adapter = PokemonListAdapter()
+        val adapter = PokemonListAdapter( onClickListener = {
+            Toast.makeText(context, "Poke name: ${it.name}", Toast.LENGTH_SHORT).show()
+        })
         binding.pokemonList.adapter = adapter
 
         viewModel.listPokemon.observe(viewLifecycleOwner) {

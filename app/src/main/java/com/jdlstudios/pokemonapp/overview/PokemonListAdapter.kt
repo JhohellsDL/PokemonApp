@@ -1,26 +1,30 @@
 package com.jdlstudios.pokemonapp.overview
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.jdlstudios.pokemonapp.databinding.TextItemBinding
 import com.jdlstudios.pokemonapp.network.Pokemon
 
-class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.TextItemViewHolder>() {
+class PokemonListAdapter(
+    private val onClickListener: (Pokemon) -> Unit
+) : RecyclerView.Adapter<PokemonListAdapter.TextItemViewHolder>() {
 
     var data = listOf<Pokemon>()
-    /*set(value) {
-        field = value
-        notifyDataSetChanged()
-    }*/
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class TextItemViewHolder private constructor(private val binding: TextItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: Pokemon) {
+        fun bind(
+            item: Pokemon, onClickListener: (Pokemon) -> Unit
+        ) {
             binding.textName.text = item.name
             binding.textUrl.text = item.url
+            itemView.setOnClickListener { onClickListener(item) }
         }
 
         companion object {
@@ -40,6 +44,6 @@ class PokemonListAdapter : RecyclerView.Adapter<PokemonListAdapter.TextItemViewH
 
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item)
+        holder.bind(item, onClickListener)
     }
 }
