@@ -42,7 +42,6 @@ class OverviewViewModel : ViewModel() {
     private fun getMarsRealEstateProperties() {
         coroutineScope.launch {
 
-            //val getPropertiesDeferred = PokemonApi.retrofitService.getPropertiesAsync("25")
             val getPropertiesDeferred = PokemonApi.retrofitService.getListPokemonAsync()
 
             try {

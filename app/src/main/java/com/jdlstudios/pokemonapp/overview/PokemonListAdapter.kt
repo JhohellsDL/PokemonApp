@@ -1,36 +1,49 @@
 package com.jdlstudios.pokemonapp.overview
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.jdlstudios.pokemonapp.databinding.TextItemBinding
+import com.jdlstudios.pokemonapp.bindImage
+import com.jdlstudios.pokemonapp.databinding.GridViewItemBinding
 import com.jdlstudios.pokemonapp.network.Pokemon
+import com.jdlstudios.pokemonapp.network.PokemonApi
+import kotlinx.coroutines.*
+
 
 class PokemonListAdapter(
     private val onClickListener: (Pokemon) -> Unit
 ) : RecyclerView.Adapter<PokemonListAdapter.TextItemViewHolder>() {
 
     var data = listOf<Pokemon>()
+        @SuppressLint("NotifyDataSetChanged")
         set(value) {
             field = value
             notifyDataSetChanged()
         }
 
-    class TextItemViewHolder private constructor(private val binding: TextItemBinding) :
+    private var viewModelJob = Job()
+    private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
+
+    class TextItemViewHolder private constructor(private val binding: GridViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(
-            item: Pokemon, onClickListener: (Pokemon) -> Unit
+        suspend fun bind(
+            item: Pokemon,
+            onClickListener: (Pokemon) -> Unit
         ) {
-            binding.textName.text = item.name
-            binding.textUrl.text = item.url
+            binding.textNamePokemon.text = item.name
+            val getPokemonDeferred = PokemonApi.retrofitService.getPropertiesAsync(item.name)
+            val pokemonItem = getPokemonDeferred.await()
+            bindImage(binding.pokemonImage, pokemonItem.sprites.other.home.frontDefault)
             itemView.setOnClickListener { onClickListener(item) }
         }
 
         companion object {
             fun from(parent: ViewGroup): TextItemViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = TextItemBinding.inflate(layoutInflater, parent, false)
+                val binding = GridViewItemBinding.inflate(layoutInflater, parent, false)
                 return TextItemViewHolder(binding)
             }
         }
@@ -44,6 +57,8 @@ class PokemonListAdapter(
 
     override fun onBindViewHolder(holder: TextItemViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item, onClickListener)
+        coroutineScope.launch {
+            holder.bind(item, onClickListener)
+        }
     }
 }
