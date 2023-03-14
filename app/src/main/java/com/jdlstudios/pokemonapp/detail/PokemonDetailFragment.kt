@@ -6,9 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.Toast
-import androidx.navigation.findNavController
-import androidx.navigation.ui.NavigationUI
+import androidx.lifecycle.ViewModelProvider
 import com.jdlstudios.pokemonapp.R
 import com.jdlstudios.pokemonapp.databinding.FragmentPokemonDetailBinding
 
@@ -23,9 +21,18 @@ class PokemonDetailFragment : Fragment() {
         binding = FragmentPokemonDetailBinding.inflate(inflater)
 
         val args = PokemonDetailFragmentArgs.fromBundle(requireArguments())
-        Toast.makeText(context, "recibido: $args", Toast.LENGTH_SHORT).show()
 
-        // Inflate the layout for this fragment
+        val viewModelFactory = PokemonDetailViewModelFactory(args.name)
+
+        val viewModel = ViewModelProvider(this, viewModelFactory)[PokemonDetailViewModel::class.java]
+        binding.pokemonDetailViewModel = viewModel
+        binding.lifecycleOwner = this
+
+        binding.buttonNext.setOnClickListener {
+
+        }
+
+
 
         setHasOptionsMenu(true)
 

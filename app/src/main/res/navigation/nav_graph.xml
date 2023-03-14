@@ -17,7 +17,7 @@
         android:name="com.jdlstudios.pokemonapp.detail.PokemonDetailFragment"
         android:label="PokemonDetailFragment" >
         <argument
-            android:name="nroPokemon"
-            app:argType="integer" />
+            android:name="name"
+            app:argType="string" />
     </fragment>
 </navigation>

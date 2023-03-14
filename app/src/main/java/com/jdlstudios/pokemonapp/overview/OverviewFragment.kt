@@ -1,12 +1,11 @@
 package com.jdlstudios.pokemonapp.overview
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.jdlstudios.pokemonapp.R
 import com.jdlstudios.pokemonapp.databinding.FragmentOverviewBinding
@@ -26,14 +25,12 @@ class OverviewFragment : Fragment() {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-
-        binding.buttonNext.setOnClickListener {
-            it.findNavController().navigate(OverviewFragmentDirections.actionOverviewFragment2ToPokemonDetailFragment(5))
-        }
-
-        val adapter = PokemonListAdapter( onClickListener = {
-            Toast.makeText(context, "Poke name: ${it.name}", Toast.LENGTH_SHORT).show()
+        val adapter = PokemonListAdapter(onClickListener = {
+            this.findNavController().navigate(
+                OverviewFragmentDirections.actionOverviewFragment2ToPokemonDetailFragment(it.name)
+            )
         })
+
         binding.pokemonList.adapter = adapter
 
         viewModel.listPokemon.observe(viewLifecycleOwner) {
@@ -43,6 +40,7 @@ class OverviewFragment : Fragment() {
         setHasOptionsMenu(true)
         return binding.root
     }
+
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
@@ -51,6 +49,9 @@ class OverviewFragment : Fragment() {
 
     @Deprecated("Deprecated in Java")
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, requireView().findNavController()) || super.onOptionsItemSelected(item)
+        return NavigationUI.onNavDestinationSelected(
+            item,
+            requireView().findNavController()
+        ) || super.onOptionsItemSelected(item)
     }
 }

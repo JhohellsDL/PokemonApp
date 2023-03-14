@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="viewModel"
-            type="com.jdlstudios.pokemonapp.overview.OverviewViewModel" />
+            name="pokemonDetailViewModel"
+            type="com.jdlstudios.pokemonapp.detail.PokemonDetailViewModel" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.property.name}"
+            android:text="@{pokemonDetailViewModel.pokemonDetail.name}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
