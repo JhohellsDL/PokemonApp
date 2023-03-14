@@ -36,7 +36,8 @@ class PokemonListAdapter(
             binding.textNamePokemon.text = item.name
             val getPokemonDeferred = PokemonApi.retrofitService.getPropertiesAsync(item.name)
             val pokemonItem = getPokemonDeferred.await()
-            bindImage(binding.pokemonImage, pokemonItem.sprites.other.home.frontDefault)
+            bindImage(binding.pokemonImage, pokemonItem.sprites.front_default)
+            binding.textNroPokemon.text = pokemonItem.order.toString()
             itemView.setOnClickListener { onClickListener(item) }
         }
 

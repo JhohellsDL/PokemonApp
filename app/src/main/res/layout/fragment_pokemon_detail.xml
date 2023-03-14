@@ -30,6 +30,7 @@
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
             android:padding="2dp"
+            imageUrl="@{pokemonDetailViewModel.pokemonDetail.sprites.other.home.frontDefault}"
             tools:src="@tools:sample/backgrounds/scenic"
             tools:ignore="ContentDescription" />
 

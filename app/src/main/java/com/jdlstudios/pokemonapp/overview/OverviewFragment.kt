@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import androidx.recyclerview.widget.GridLayoutManager
 import com.jdlstudios.pokemonapp.R
 import com.jdlstudios.pokemonapp.databinding.FragmentOverviewBinding
 
@@ -32,6 +33,9 @@ class OverviewFragment : Fragment() {
         })
 
         binding.pokemonList.adapter = adapter
+
+        val manager = GridLayoutManager(activity, 3)
+        binding.pokemonList.layoutManager = manager
 
         viewModel.listPokemon.observe(viewLifecycleOwner) {
             adapter.data = it!!

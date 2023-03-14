@@ -21,6 +21,7 @@ data class Form(
 )
 
 data class Sprites(
+    val front_default: String,
     val other: Other
 )
 
