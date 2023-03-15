@@ -1,7 +1,6 @@
 package com.jdlstudios.pokemonapp.overview
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,6 +9,7 @@ import com.jdlstudios.pokemonapp.databinding.GridViewItemBinding
 import com.jdlstudios.pokemonapp.network.Pokemon
 import com.jdlstudios.pokemonapp.network.PokemonApi
 import kotlinx.coroutines.*
+import java.util.*
 
 
 class PokemonListAdapter(
@@ -29,15 +29,16 @@ class PokemonListAdapter(
     class TextItemViewHolder private constructor(private val binding: GridViewItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        @SuppressLint("SetTextI18n")
         suspend fun bind(
             item: Pokemon,
             onClickListener: (Pokemon) -> Unit
         ) {
-            binding.textNamePokemon.text = item.name
+            binding.textNamePokemon.text = item.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
             val getPokemonDeferred = PokemonApi.retrofitService.getPropertiesAsync(item.name)
             val pokemonItem = getPokemonDeferred.await()
             bindImage(binding.pokemonImage, pokemonItem.sprites.front_default)
-            binding.textNroPokemon.text = pokemonItem.order.toString()
+            binding.textNroPokemon.text = "#"+pokemonItem.order.toString()
             itemView.setOnClickListener { onClickListener(item) }
         }
 
