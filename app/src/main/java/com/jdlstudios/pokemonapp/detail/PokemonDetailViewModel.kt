@@ -14,6 +14,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import okhttp3.Dispatcher
 import java.security.interfaces.EdECKey
+import java.util.*
 
 class PokemonDetailViewModel(
     name: String
@@ -47,6 +48,14 @@ class PokemonDetailViewModel(
     val pokemonOrden: LiveData<String>
         get() = _pokemonOrden
 
+    private val _pokemonName = MutableLiveData<String>()
+    val pokemonName: LiveData<String>
+        get() = _pokemonName
+
+    private val _pokemonColor = MutableLiveData<String>()
+    val pokemonColor: LiveData<String>
+        get() = _pokemonColor
+
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -60,11 +69,26 @@ class PokemonDetailViewModel(
             val getDetailDeferred = PokemonApi.retrofitService.getPropertiesAsync(name)
             try {
                 val result = getDetailDeferred.await()
+                val peso = result.weight / 2.205
+                val altura = result.height / 5.94
+                val alturaFormateado = String.format("%.2f", altura)
+                val pesoFormateado = String.format("%.2f", peso)
+
                 _pokemonDetail.value = result
-                _pokemonType.value = result.types[0].type.name
-                _pokemonAltura.value = result.height.toString() + "m"
-                _pokemonPeso.value = result.weight.toString() + "Kg"
+                _pokemonType.value = result.types[0].type.name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }
+                _pokemonName.value = result.name.replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    )else it.toString()
+                }
+                _pokemonAltura.value = "$alturaFormateado m"
+                _pokemonPeso.value = "$pesoFormateado Kg"
                 _pokemonOrden.value = result.order.toString()
+
             } catch (e: Exception) {
                 Log.i("poke", "${e.message}")
             }
@@ -77,6 +101,7 @@ class PokemonDetailViewModel(
             try {
                 val result = getSpeciesDeferred.await()
                 _pokemonSpecie.value = result
+                _pokemonColor.value = result.color.name
                 getGenero()
             } catch (e: Exception) {
                 Log.i("poke", "${e.message}")
@@ -84,9 +109,9 @@ class PokemonDetailViewModel(
         }
     }
 
-    private fun getGenero(){
+    private fun getGenero() {
         _pokemonSpecie.value?.genera?.forEach {
-            if (it.language.name == "es"){
+            if (it.language.name == "es") {
                 _pokemonGenero.value = it.genus
             }
         }

@@ -8,6 +8,7 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.jdlstudios.pokemonapp.R
+import com.jdlstudios.pokemonapp.colorMap
 import com.jdlstudios.pokemonapp.databinding.FragmentPokemonDetailBinding
 
 class PokemonDetailFragment : Fragment() {
@@ -27,6 +28,12 @@ class PokemonDetailFragment : Fragment() {
         val viewModel = ViewModelProvider(this, viewModelFactory)[PokemonDetailViewModel::class.java]
         binding.pokemonDetailViewModel = viewModel
         binding.lifecycleOwner = this
+
+        viewModel.pokemonColor.observe(viewLifecycleOwner){
+            val colorResId = colorMap[it] ?: R.color.new_white
+            binding.constraintLayoutGeneral.setBackgroundResource(colorResId)
+        }
+
 
         setHasOptionsMenu(true)
 
