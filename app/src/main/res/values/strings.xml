@@ -4,4 +4,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="share_success_text">I mastered #UdacityAndroidTrivia with %1$d correct questions!</string>
     <string name="nro_pokemon">#, %s!</string>
+    <string name="pokemon_title">Pokemon</string>
+    <string name="informacion_subtitle">Informacion</string>
+    <string name="nro">Nro: #</string>
 </resources>

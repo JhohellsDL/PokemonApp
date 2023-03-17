@@ -28,12 +28,6 @@ class PokemonDetailFragment : Fragment() {
         binding.pokemonDetailViewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.buttonNext.setOnClickListener {
-
-        }
-
-
-
         setHasOptionsMenu(true)
 
         return binding.root

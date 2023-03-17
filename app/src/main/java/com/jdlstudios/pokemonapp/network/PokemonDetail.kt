@@ -10,9 +10,25 @@ data class PokemonDetail(
     //val moves: List<Move>,
     val name: String,
     val order: Int,
+    val species: Species,
     val sprites: Sprites,
     val stats: List<Stats>,
+    val types: List<Tipos>,
     val weight: Int
+)
+
+data class Tipos(
+    val slot: Int,
+    val type: Tipo
+)
+
+data class Tipo(
+    val name: String,
+    val url: String
+)
+data class Species (
+    val name: String,
+    val url: String
 )
 
 data class Form(
