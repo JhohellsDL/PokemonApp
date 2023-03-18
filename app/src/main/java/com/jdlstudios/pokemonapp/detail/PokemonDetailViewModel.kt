@@ -60,6 +60,14 @@ class PokemonDetailViewModel(
     val pokemonListType: LiveData<List<String>>
         get() = _pokemonListType
 
+    private val _pokemonNameListState = MutableLiveData<List<String>>()
+    val pokemonNameListState: LiveData<List<String>>
+        get() = _pokemonNameListState
+
+    private val _pokemonValorListState = MutableLiveData<List<String>>()
+    val pokemonValorListState: LiveData<List<String>>
+        get() = _pokemonValorListState
+
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -93,12 +101,21 @@ class PokemonDetailViewModel(
                 _pokemonPeso.value = "$pesoFormateado Kg"
                 _pokemonOrden.value = result.order.toString()
 
+                val listValorStats = mutableListOf<String>()
+                val listNameStats = mutableListOf<String>()
+                result.stats.forEach {
+                    listValorStats.add(it.baseStat.toString())
+                    listNameStats.add(it.stat.name)
+                }
+                _pokemonNameListState.value = listNameStats
+                _pokemonValorListState.value = listValorStats
+
                 val listTypes = mutableListOf<String>()
                 result.types.forEach {
                     listTypes.add(it.type.name)
                 }
                 _pokemonListType.value = listTypes
-                Log.i("poke", "lista tipos: $listTypes")
+
 
             } catch (e: Exception) {
                 Log.i("poke", "${e.message}")
