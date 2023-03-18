@@ -24,6 +24,10 @@ class PokemonDetailViewModel(
     val pokemonDetail: LiveData<PokemonDetail>
         get() = _pokemonDetail
 
+    private val _pokemonPrevDetail = MutableLiveData<PokemonDetail>()
+    val pokemonPrevDetail: LiveData<PokemonDetail>
+        get() = _pokemonPrevDetail
+
     private val _pokemonSpecie = MutableLiveData<PokemonSpecie>()
     val pokemonSpecie: LiveData<PokemonSpecie>
         get() = _pokemonSpecie
@@ -68,12 +72,25 @@ class PokemonDetailViewModel(
     val pokemonValorListState: LiveData<List<String>>
         get() = _pokemonValorListState
 
+    private lateinit var namePreEvolve: String
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     init {
         getDetailPokemon(name)
         getSpeciePokemon(name)
+    }
+
+    private fun getFromEvolved(name: String){
+        coroutineScope.launch {
+            val getFromEvolveDeferred = PokemonApi.retrofitService.getPropertiesAsync(name)
+            try {
+                val result = getFromEvolveDeferred.await()
+                _pokemonPrevDetail.value = result
+            }catch (e: Exception){
+                Log.i("poke", "${e.message}")
+            }
+        }
     }
 
     private fun getDetailPokemon(name: String) {
@@ -130,6 +147,8 @@ class PokemonDetailViewModel(
                 val result = getSpeciesDeferred.await()
                 _pokemonSpecie.value = result
                 _pokemonColor.value = result.color.name
+                namePreEvolve = result.evolves_from_species!!.name
+                getFromEvolved(namePreEvolve)
                 getGenero()
             } catch (e: Exception) {
                 Log.i("poke", "${e.message}")
