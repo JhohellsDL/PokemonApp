@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="new_gray_1">#535353</color>
-    <color name="new_gray_2">#191919</color>
+    <color name="new_gray_cleared">#535353</color>
+    <color name="new_gray_dark">#191919</color>
     <color name="new_red_1">#F64747</color>
     <color name="new_green_1">#4CAF50</color>
     <color name="new_transparent">#00FFFFFF</color>
@@ -24,4 +24,25 @@
     <color name="new_red">#FF968A</color>
     <color name="new_white">#DDDDDD</color>
     <color name="new_yellow">#FFFFB5</color>
+
+    <color name="color_normal">#9FA19E</color>
+    <color name="color_fighting">#D54059</color>
+    <color name="color_flying">#9EBAE9</color>
+    <color name="color_poison">#C160D6</color>
+    <color name="color_ground">#D97B4D</color>
+    <color name="color_rock">#C7BA86</color>
+    <color name="color_bug">#8DBF23</color>
+    <color name="color_ghost">#825DBF</color>
+    <color name="color_steel">#4E95A1</color>
+    <color name="color_fire">#F6A555</color>
+    <color name="color_water">#529CDD</color>
+    <color name="color_grass">#5FBC5D</color>
+    <color name="color_electric">#EED94B</color>
+    <color name="color_psychic">#F48281</color>
+    <color name="color_ice">#75D1C6</color>
+    <color name="color_dragon">#096BC5</color>
+    <color name="color_dark">#48454C</color>
+    <color name="color_fairy">#F18DE5</color>
+    <color name="color_unknown">#A0A19C</color>
+    <color name="color_shadow">#565461</color>
 </resources>

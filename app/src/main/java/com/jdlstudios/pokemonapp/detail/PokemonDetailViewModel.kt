@@ -56,6 +56,10 @@ class PokemonDetailViewModel(
     val pokemonColor: LiveData<String>
         get() = _pokemonColor
 
+    private val _pokemonListType = MutableLiveData<List<String>>()
+    val pokemonListType: LiveData<List<String>>
+        get() = _pokemonListType
+
     private val viewModelJob = Job()
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
@@ -88,6 +92,13 @@ class PokemonDetailViewModel(
                 _pokemonAltura.value = "$alturaFormateado m"
                 _pokemonPeso.value = "$pesoFormateado Kg"
                 _pokemonOrden.value = result.order.toString()
+
+                val listTypes = mutableListOf<String>()
+                result.types.forEach {
+                    listTypes.add(it.type.name)
+                }
+                _pokemonListType.value = listTypes
+                Log.i("poke", "lista tipos: $listTypes")
 
             } catch (e: Exception) {
                 Log.i("poke", "${e.message}")
