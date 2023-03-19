@@ -7,4 +7,7 @@
     <string name="pokemon_title">Pokemon</string>
     <string name="informacion_subtitle">Informacion</string>
     <string name="nro">Nro: </string>
+    <string name="peso">Peso</string>
+    <string name="altura">Altura</string>
+    <string name="tipo">Tipo</string>
 </resources>

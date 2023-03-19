@@ -35,7 +35,7 @@ class PokemonDetailFragment : Fragment() {
 
         viewModel.pokemonColor.observe(viewLifecycleOwner) {
             val colorResId = colorMap[it] ?: R.color.new_white
-            binding.constraintLayoutGeneral.setBackgroundResource(colorResId)
+            binding.constraintLayoutStats.setBackgroundResource(colorResId)
         }
 
         viewModel.pokemonListType.observe(viewLifecycleOwner) {
