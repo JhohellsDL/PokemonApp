@@ -5,6 +5,7 @@ package com.jdlstudios.pokemonapp.detail
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.core.view.isGone
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -32,6 +33,10 @@ class PokemonDetailFragment : Fragment() {
             ViewModelProvider(this, viewModelFactory)[PokemonDetailViewModel::class.java]
         binding.pokemonDetailViewModel = viewModel
         binding.lifecycleOwner = this
+
+        binding.pokemonImagePrev.setOnClickListener {
+            Toast.makeText(context, "Vuelve atras!", Toast.LENGTH_SHORT).show()
+        }
 
         viewModel.pokemonColor.observe(viewLifecycleOwner) {
             val colorResId = colorMap[it] ?: R.color.new_white
